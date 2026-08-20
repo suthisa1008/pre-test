@@ -35,12 +35,15 @@ func TestProductAPI_CreateAndPartialPatch(t *testing.T) {
 	var created httpapi.APIResponse
 	decode(t, createResp, &created)
 	require.True(t, created.Successful)
-	require.Equal(t, "", created.ErrorCode)
+	require.Equal(t, httpapi.ErrorSuccess, created.ErrorCode)
 	require.NotNil(t, created.Data)
-	require.NotEmpty(t, created.Data.Data1)
-	require.Equal(t, "Americano", created.Data.Data2)
+	require.NotEmpty(t, created.Data.ID)
+	require.Equal(t, "Americano", created.Data.Name)
+	require.Equal(t, "black coffee", *created.Data.Description)
+	require.InDelta(t, 45.0, *created.Data.SalePrice, 0.001)
+	require.InDelta(t, 60.0, created.Data.Price, 0.001)
 
-	id := created.Data.Data1
+	id := created.Data.ID
 	patchResp := patchJSON(t, server.URL+"/product/"+id, map[string]any{
 		"description": nil,
 		"price":       65.0,
@@ -50,6 +53,7 @@ func TestProductAPI_CreateAndPartialPatch(t *testing.T) {
 	var patched httpapi.PatchAPIResponse
 	decode(t, patchResp, &patched)
 	require.True(t, patched.Successful)
+	require.Equal(t, httpapi.ErrorSuccess, patched.ErrorCode)
 
 	stored, err := repo.GetByID(context.Background(), id)
 	require.NoError(t, err)

@@ -66,10 +66,8 @@ func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 		writeCreate(w, status, false, code, nil)
 		return
 	}
-	writeCreate(w, http.StatusCreated, true, ErrorNone, &CreateData{
-		Data1: created.ID,
-		Data2: created.Name,
-	})
+	resp := toProductResponse(created)
+	writeCreate(w, http.StatusCreated, true, ErrorSuccess, &resp)
 }
 
 // PatchProduct godoc
@@ -102,7 +100,7 @@ func (h *ProductHandler) PatchProduct(w http.ResponseWriter, r *http.Request) {
 		writePatch(w, status, false, code)
 		return
 	}
-	writePatch(w, http.StatusOK, true, ErrorNone)
+	writePatch(w, http.StatusOK, true, ErrorSuccess)
 }
 
 func (req PatchProductRequest) toInput() (domain.PatchProductInput, error) {

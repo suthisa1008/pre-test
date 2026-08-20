@@ -50,13 +50,13 @@ Default env:
 | Variable | Default |
 |---|---|
 | `HTTP_ADDR` | `:8080` |
-| `DATABASE_URL` | `postgres://product:product@localhost:5432/product?sslmode=disable` |
+| `DATABASE_URL` | `postgres://product:product@localhost:5433/product?sslmode=disable` |
 
 Windows PowerShell:
 
 ```powershell
 $env:HTTP_ADDR=":8080"
-$env:DATABASE_URL="postgres://product:product@localhost:5432/product?sslmode=disable"
+$env:DATABASE_URL="postgres://product:product@localhost:5433/product?sslmode=disable"
 go run ./cmd/api
 ```
 
@@ -88,15 +88,18 @@ Response:
 ```json
 {
   "successful": true,
-  "error_code": "",
+  "error_code": "SUCCESS",
   "data": {
-    "data1": "product-uuid",
-    "data2": "Latte"
+    "id": "product-uuid",
+    "name": "Latte",
+    "description": "hot milk coffee",
+    "sale_price": 80.0,
+    "price": 100.0,
+    "created_at": "2026-08-20T10:00:00Z",
+    "updated_at": "2026-08-20T10:00:00Z"
   }
 }
 ```
-
-`data1` = product id, `data2` = product name.
 
 ### Patch product
 
@@ -116,11 +119,11 @@ Response:
 ```json
 {
   "successful": true,
-  "error_code": ""
+  "error_code": "SUCCESS"
 }
 ```
 
-Error codes: `VALIDATION_ERROR`, `NOT_FOUND`, `INTERNAL_ERROR`.
+Error codes: `SUCCESS`, `VALIDATION_ERROR`, `NOT_FOUND`, `INTERNAL_ERROR`.
 
 ### curl examples
 

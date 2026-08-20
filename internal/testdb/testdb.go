@@ -56,7 +56,7 @@ func candidateURLs() []string {
 	if v := os.Getenv("TEST_DATABASE_URL"); v != "" {
 		urls = append(urls, v)
 	}
-	urls = append(urls, "postgres://product:product@localhost:5432/product?sslmode=disable")
+	urls = append(urls, "postgres://product:product@localhost:5433/product?sslmode=disable")
 	return urls
 }
 

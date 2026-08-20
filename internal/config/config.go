@@ -14,7 +14,7 @@ type Config struct {
 func Load() Config {
 	return Config{
 		HTTPAddr:    getenv("HTTP_ADDR", ":8080"),
-		DatabaseURL: getenv("DATABASE_URL", "postgres://product:product@localhost:5432/product?sslmode=disable"),
+		DatabaseURL: getenv("DATABASE_URL", "postgres://product:product@localhost:5433/product?sslmode=disable"),
 		ShutdownTO:  10 * time.Second,
 	}
 }
